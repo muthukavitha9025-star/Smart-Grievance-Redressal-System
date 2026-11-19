@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Grievance Redressal System</title>
+<style>
+  :root{
+    --ink:#14213d; --muted:#5b6475; --bg:#eef1f6; --card:#ffffff; --line:#d6dbe5;
+    --brand:#0f5c6e; --brand-dark:#0a4452; --high:#c0392b; --med:#d68910; --low:#2e7d5b;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --ink:#e8ecf4; --muted:#9aa5ba; --bg:#0f1624; --card:#18223a; --line:#2c3a58; --brand:#3aa3b8; --brand-dark:#2b8195; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
+  header{background:var(--brand-dark);color:#fff;padding:14px 20px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+  header h1{font-size:1.05rem;margin:0}
+  nav{display:flex;flex-wrap:wrap;gap:6px}
+  nav button{background:transparent;border:1px solid rgba(255,255,255,.35);color:#fff;padding:7px 12px;border-radius:6px;cursor:pointer;font-size:.9rem}
+  nav button:hover,nav button:focus-visible{background:rgba(255,255,255,.15);outline:2px solid #fff;outline-offset:1px}
+  main{max-width:900px;margin:0 auto;padding:24px 16px 60px}
+  section{display:none}
+  section.active{display:block}
+  h2{font-size:1.6rem;margin:0 0 8px}
+  p.lead{color:var(--muted);max-width:60ch;margin-top:0}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:22px 0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px}
+  .card h3{margin:0 0 6px;font-size:1rem}
+  .card p{margin:0;color:var(--muted);font-size:.92rem}
+  label{display:block;font-weight:600;margin:14px 0 5px;font-size:.92rem}
+  input[type=text],input[type=password],textarea,select{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font:inherit}
+  textarea{min-height:130px;resize:vertical}
+  input:focus,textarea:focus,select:focus{outline:2px solid var(--brand);outline-offset:1px}
+  .check{display:flex;gap:8px;align-items:flex-start;font-weight:400;margin-top:14px}
+  .check input{margin-top:4px}
+  .btn{background:var(--brand);color:#fff;border:0;padding:11px 18px;border-radius:8px;cursor:pointer;font-weight:600;font-size:.95rem;margin-top:16px}
+  .btn:hover{background:var(--brand-dark)}
+  .btn.alt{background:transparent;color:var(--brand);border:1px solid var(--brand);margin-left:8px}
+  .tid{font-size:1.7rem;font-weight:700;letter-spacing:1px;background:var(--card);border:2px dashed var(--brand);border-radius:10px;padding:14px;text-align:center;margin:16px 0;word-break:break-all}
+  .badge{display:inline-block;padding:2px 9px;border-radius:99px;font-size:.78rem;font-weight:700;color:#fff}
+  .High{background:var(--high)} .Medium{background:var(--med)} .Low{background:var(--low)}
+  .msg{padding:10px 12px;border-radius:8px;margin-top:12px;font-size:.92rem}
+  .msg.warn{background:#fff4d6;color:#6b4e00;border:1px solid #f0d58a}
+  .msg.err{background:#fde8e6;color:#8a1f14;border:1px solid #f1b5af}
+  .bars .row{display:flex;align-items:center;gap:10px;margin:7px 0;font-size:.9rem}
+  .bars .name{width:120px;flex:none}
+  .bars .track{flex:1;background:var(--line);border-radius:6px;height:16px;overflow:hidden}
+  .bars .fill{height:100%;background:var(--brand)}
+  .tablewrap{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:.88rem;background:var(--card)}
+  th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+  th{background:var(--bg);font-size:.82rem}
+  .topbar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+  footer{text-align:center;color:var(--muted);font-size:.82rem;padding:20px}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🎓 Smart Grievance Redressal System</h1>
+  <nav aria-label="Main">
+    <button onclick="show('home')">Home</button>
+    <button onclick="show('submit')">Submit Complaint</button>
+    <button onclick="show('track')">Track Status</button>
+    <button onclick="show('login')">Admin Dashboard</button>
+  </nav>
+</header>
+
+<main>
+  <!-- HOME -->
+  <section id="home" class="active">
+    <h2>Smart Grievance Redressal System</h2>
+    <p class="lead">An AI-powered platform for students to raise, track, and resolve grievances quickly and transparently.</p>
+    <div class="grid">
+      <div class="card"><h3>🤖 AI Auto-Categorization</h3><p>Automatically classifies your complaint into the right category (Hostel, Academic, Infrastructure, etc.)</p></div>
+      <div class="card"><h3>⚡ Urgency Detection</h3><p>Detects urgent or sensitive complaints and flags them as High priority for faster action.</p></div>
+      <div class="card"><h3>🔁 Duplicate Detection</h3><p>Detects if a similar complaint already exists, avoiding repeated work.</p></div>
+      <div class="card"><h3>📊 Live Tracking</h3><p>Every complaint gets a unique tracking ID so students can check status anytime.</p></div>
+    </div>
+    <button class="btn" onclick="show('submit')">Submit a Complaint</button>
+    <button class="btn alt" onclick="show('track')">Track Complaint Status</button>
+  </section>
+
+  <!-- SUBMIT -->
+  <section id="submit">
+    <h2>Submit a Grievance</h2>
+    <p class="lead">Describe your issue clearly. The system will detect the category and urgency level automatically.</p>
+    <label for="name">Full Name</label>
+    <input type="text" id="name" autocomplete="name">
+    <label for="roll">Roll Number</label>
+    <input type="text" id="roll">
+    <label class="check"><input type="checkbox" id="anon"> Submit anonymously (recommended for ragging/harassment complaints)</label>
+    <label for="desc">Complaint Description *</label>
+    <textarea id="desc" placeholder="Example: The hostel water supply has been cut off since morning."></textarea>
+    <div id="submitMsg"></div>
+    <button class="btn" onclick="submitComplaint()">Submit Complaint</button>
+  </section>
+
+  <!-- SUCCESS -->
+  <section id="success">
+    <h2>✅ Complaint Submitted Successfully</h2>
+    <p class="lead">Save your Tracking ID to check the status of your complaint later.</p>
+    <div class="tid" id="newId"></div>
+    <p id="newInfo"></p>
+    <button class="btn" onclick="trackThis()">Track This Complaint</button>
+    <button class="btn alt" onclick="show('home')">Back to Home</button>
+  </section>
+
+  <!-- TRACK -->
+  <section id="track">
+    <h2>Track Your Complaint</h2>
+    <label for="trackId">Enter Tracking ID</label>
+    <input type="text" id="trackId" placeholder="GRV-XXXXXX">
+    <button class="btn" onclick="trackComplaint()">Track</button>
+    <div id="trackResult"></div>
+  </section>
+
+  <!-- LOGIN -->
+  <section id="login">
+    <h2>🔒 Admin Login</h2>
+    <p class="lead">This area shows student names and complaint details. Enter the admin password to continue.</p>
+    <label for="pass">Password</label>
+    <input type="password" id="pass">
+    <div id="loginMsg"></div>
+    <button class="btn" onclick="adminLogin()">Login</button>
+  </section>
+
+  <!-- ADMIN -->
+  <section id="admin">
+    <div class="topbar"><h2>Admin Dashboard</h2><button class="btn alt" style="margin:0" onclick="logout()">Logout</button></div>
+    <h3>Complaints by Category (AI Classified)</h3>
+    <div class="bars card" id="bars"></div>
+    <h3>All Complaints (Sorted by AI-Detected Urgency)</h3>
+    <div class="tablewrap card" style="padding:0">
+      <table>
+        <thead><tr><th>Tracking ID</th><th>Student</th><th>Category</th><th>Urgency</th><th>Description</th><th>Status</th><th>Date</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<footer>Smart Grievance Redressal System — AI Expo Project</footer>
+
+<script>
+// ---------- Settings ----------
+const ADMIN_PASSWORD = "admin123";   // change this before sharing
+const STORAGE_KEY = "grievances_v1";
+
+// Keyword rules used for categorization (rule-based AI)
+const CATEGORIES = {
+  "Hostel":         ["hostel","mess","warden","room","bed","water supply","laundry","roommate"],
+  "Academic":       ["exam","marks","faculty","teacher","class","syllabus","attendance","timetable","result","assignment","lecture"],
+  "Infrastructure": ["wifi","internet","lab","computer","projector","fan","light","electricity","toilet","washroom","bench","building","lift","road","drinking water","ac"],
+  "Library":        ["library","book","journal","reading room"],
+  "Transport":      ["bus","transport","driver","route"],
+  "Harassment":     ["ragging","harass","bully","bullying","threat","abuse","stalk","eve teasing"],
+  "Fees & Admin":   ["fee","fees","scholarship","certificate","office","admission","refund","bonafide"]
+};
+// Words that raise urgency
+const HIGH_WORDS = ["ragging","harass","threat","abuse","fire","injury","injured","accident","emergency","urgent","unsafe","danger","medical","violence","stalk","suicide","bleeding","electric shock","immediately"];
+const MED_WORDS  = ["not working","broken","no water","no electricity","leak","delay","pending","dirty","unhygienic","power cut","not clean","complaint again"];
+
+// ---------- Helpers ----------
+const $ = id => document.getElementById(id);
+const load = () => JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+const save = list => localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let lastId = null, isAdmin = false;
+
+function show(id){
+  if(id === "login" && isAdmin) id = "admin";
+  if(id === "admin") renderAdmin();
+  document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
+  $(id).classList.add("active");
+  window.scrollTo(0,0);
+}
+
+// ---------- AI logic ----------
+function categorize(text){
+  const t = text.toLowerCase();
+  let best = "General", bestScore = 0;
+  for(const [cat, words] of Object.entries(CATEGORIES)){
+    const score = words.filter(w => t.includes(w)).length;
+    if(score > bestScore){ best = cat; bestScore = score; }
+  }
+  return best;
+}
+function detectUrgency(text){
+  const t = text.toLowerCase();
+  if(HIGH_WORDS.some(w => t.includes(w))) return "High";
+  if(MED_WORDS.some(w => t.includes(w))) return "Medium";
+  return "Low";
+}
+// Jaccard similarity between word sets
+function tokens(text){
+  return new Set(text.toLowerCase().replace(/[^a-z0-9\s]/g," ").split(/\s+/).filter(w => w.length > 2));
+}
+function similarity(a, b){
+  const A = tokens(a), B = tokens(b);
+  if(!A.size || !B.size) return 0;
+  let inter = 0; A.forEach(w => { if(B.has(w)) inter++; });
+  return inter / (A.size + B.size - inter);
+}
+function findDuplicate(text, category){
+  return load().find(c => c.category === category && similarity(c.description, text) >= 0.6);
+}
+function newTrackingId(){
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let id;
+  do { id = "GRV-" + Array.from({length:6}, () => chars[Math.floor(Math.random()*chars.length)]).join(""); }
+  while(load().some(c => c.id === id));
+  return id;
+}
+
+// ---------- Submit ----------
+function submitComplaint(){
+  const desc = $("desc").value.trim();
+  const anon = $("anon").checked;
+  const name = anon ? "Anonymous" : ($("name").value.trim() || "Not provided");
+  const roll = anon ? "-" : ($("roll").value.trim() || "-");
+  const box = $("submitMsg");
+  box.innerHTML = "";
+  if(desc.length < 15){
+    box.innerHTML = '<div class="msg err">Please describe the issue in at least 15 characters.</div>';
+    return;
+  }
+  const category = categorize(desc);
+  const dup = findDuplicate(desc, category);
+  if(dup){
+    box.innerHTML = '<div class="msg warn">A similar complaint already exists: <b>' + esc(dup.id) + '</b> (' + esc(dup.status) + '). Track it instead of submitting again.</div>';
+    return;
+  }
+  const urgency = detectUrgency(desc);
+  const c = { id:newTrackingId(), name, roll, category, urgency, description:desc, status:"Pending", date:new Date().toLocaleDateString() };
+  const list = load(); list.push(c); save(list);
+  lastId = c.id;
+  $("newId").textContent = c.id;
+  $("newInfo").innerHTML = 'Category: <b>' + esc(category) + '</b> &nbsp; Urgency: <span class="badge ' + urgency + '">' + urgency + '</span>';
+  $("desc").value = ""; $("name").value = ""; $("roll").value = ""; $("anon").checked = false;
+  show("success");
+}
+function trackThis(){ $("trackId").value = lastId; show("track"); trackComplaint(); }
+
+// ---------- Track ----------
+function trackComplaint(){
+  const id = $("trackId").value.trim().toUpperCase();
+  const c = load().find(x => x.id === id);
+  $("trackResult").innerHTML = c
+    ? '<div class="card" style="margin-top:16px"><h3>' + esc(c.id) + '</h3>' +
+      '<p>Status: <b>' + esc(c.status) + '</b></p>' +
+      '<p>Category: ' + esc(c.category) + ' &nbsp; Urgency: <span class="badge ' + c.urgency + '">' + c.urgency + '</span></p>' +
+      '<p>Submitted on: ' + esc(c.date) + '</p></div>'
+    : '<div class="msg err">No complaint found for this Tracking ID.</div>';
+}
+
+// ---------- Admin ----------
+function adminLogin(){
+  if($("pass").value === ADMIN_PASSWORD){
+    isAdmin = true; $("pass").value = ""; $("loginMsg").innerHTML = ""; show("admin");
+  } else {
+    $("loginMsg").innerHTML = '<div class="msg err">Wrong password. Try again.</div>';
+  }
+}
+function logout(){ isAdmin = false; show("home"); }
+function updateStatus(id, status){
+  const list = load(); const c = list.find(x => x.id === id);
+  if(c){ c.status = status; save(list); renderAdmin(); }
+}
+function renderAdmin(){
+  const list = load();
+  const counts = {};
+  list.forEach(c => counts[c.category] = (counts[c.category] || 0) + 1);
+  const max = Math.max(1, ...Object.values(counts));
+  $("bars").innerHTML = Object.keys(counts).length
+    ? Object.entries(counts).map(([k,v]) =>
+        '<div class="row"><span class="name">' + esc(k) + '</span><div class="track"><div class="fill" style="width:' + (v/max*100) + '%"></div></div><span>' + v + '</span></div>').join("")
+    : '<p style="color:var(--muted);margin:0">No complaints yet.</p>';
+  const order = { High:0, Medium:1, Low:2 };
+  const sorted = [...list].sort((a,b) => order[a.urgency] - order[b.urgency]);
+  $("rows").innerHTML = sorted.length ? sorted.map(c =>
+    '<tr><td>' + esc(c.id) + '</td><td>' + esc(c.name) + '<br><small>' + esc(c.roll) + '</small></td>' +
+    '<td>' + esc(c.category) + '</td><td><span class="badge ' + c.urgency + '">' + c.urgency + '</span></td>' +
+    '<td>' + esc(c.description) + '</td>' +
+    '<td><select onchange="updateStatus(\'' + c.id + '\', this.value)">' +
+      ["Pending","In Progress","Resolved"].map(s => '<option' + (s === c.status ? " selected" : "") + '>' + s + '</option>').join("") +
+    '</select></td><td>' + esc(c.date) + '</td></tr>').join("")
+    : '<tr><td colspan="7">No complaints yet.</td></tr>';
+}
+</script>
+</body>
+</html>
